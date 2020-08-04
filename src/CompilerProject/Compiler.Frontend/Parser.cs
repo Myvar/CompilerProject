@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compiler.Core.Parsing;
 using Compiler.Frontend.Ast;
+using Compiler.Frontend.Grammer;
 using static Compiler.Core.Parsing.TokenType;
 
 namespace Compiler.Frontend
@@ -17,104 +18,7 @@ namespace Compiler.Frontend
             };
 
 
-        private static List<List<(object[], Func<AstNode[], AstNode>)>> _passRules =
-            new List<List<(object[], Func<AstNode[], AstNode>)>>
-            {
-                new List<(object[], Func<AstNode[], AstNode>)>
-                {
-                    //
-                    // NameTypePair
-                    //
-                    (new object[] {Identifier, DoublePoint, Identifier},
-                        (objs) => new NameTypePair() {Name = objs[0], Type = objs[2]}),
-                    
-                    //
-                    // Const Name ProcedureNode
-                    //
-                    (new object[] {Identifier, DoubleDouble},
-                        (objs) => new ProcedureNode() {Name = objs[0]}),
-                },
-                new List<(object[], Func<AstNode[], AstNode>)>
-                {
-                    //
-                    // DivisionNode
-                    //
-                    (new object[] {typeof(ExprNode), Divide, typeof(ExprNode)},
-                        (objs) => new ExprNode
-                            {Value = new DivisionNode {A = objs[0], B = objs[2]}}),
-
-                    //
-                    // MultiplicationNode
-                    //
-                    (new object[] {typeof(ExprNode), Multiply, typeof(ExprNode)},
-                        (objs) => new ExprNode
-                            {Value = new MultiplicationNode {A = objs[0], B = objs[2]}}),
-                },
-                new List<(object[], Func<AstNode[], AstNode>)>
-                {
-                    //
-                    // AdditionNode
-                    //
-                    (new object[] {typeof(ExprNode), Plus, typeof(ExprNode)},
-                        (objs) => new ExprNode
-                            {Value = new AdditionNode {A = objs[0], B = objs[2]}}),
-
-                    //
-                    // SubtractionNode
-                    //
-                    (new object[] {typeof(ExprNode), Minus, typeof(ExprNode)},
-                        (objs) => new ExprNode
-                            {Value = new SubtractionNode {A = objs[0], B = objs[2]}}),
-
-                    //
-                    // ListNode A
-                    //
-                    (new object[] {typeof(NameTypePair), Comma, typeof(NameTypePair)},
-                        (objs) => new ListNode() {A = objs[0], B = objs[2]}),
-                },
-                new List<(object[], Func<AstNode[], AstNode>)>
-                {
-                    //
-                    // AssignmentNode
-                    //
-                    (new object[] {typeof(ExprNode), Eq, typeof(ExprNode)},
-                        (objs) => new AssignmentNode() {Name = objs[0], Value = objs[2]}),
-
-                    //
-                    // DeclNode
-                    //
-                    (new object[] {typeof(ExprNode), DoubleEq, typeof(ExprNode)},
-                        (objs) => new DeclNode() {Name = objs[0], Value = objs[2]}),
-
-                    //
-                    // ListNode B
-                    //
-                    (new object[] {typeof(ListNode), Comma, typeof(NameTypePair)},
-                        (objs) => new ListNode() {A = objs[0], B = objs[2]}),
-
-                    //
-                    // ProcedureArgsNode List
-                    //
-                    (new object[] {OpenRoundBracket, typeof(ListNode), CloseRoundBracket},
-                        (objs) => new ProcedureArgsNode() {Args = objs[1]}),
-                    
-                    //
-                    // ProcedureArgsNode Pair
-                    //
-                    (new object[] {OpenRoundBracket, typeof(NameTypePair), CloseRoundBracket},
-                        (objs) => new ProcedureArgsNode() {Args = objs[1]}),
-                },
-
-                new List<(object[], Func<AstNode[], AstNode>)>
-                {
-                    //
-                    // ProcedureNode
-                    //
-                    (new object[] {typeof(ProcedureNode), typeof(ProcedureArgsNode)},
-                        (objs) => new ProcedureNode() {Name = objs[0], Args = objs[1]}),
-                    
-                },
-            };
+     
 
         public static DocumentNode Parse(TokenString ts)
         {
@@ -127,7 +31,7 @@ namespace Compiler.Frontend
             }
 
 
-            var passCount = _passRules.Count;
+            var passCount = Rules.PassRules.Count;
 
             for (int p = 0; p < passCount; p++)
             {
@@ -147,7 +51,7 @@ namespace Compiler.Frontend
                     }
                 }
 
-                var passRules = _passRules[p];
+                var passRules = Rules.PassRules[p];
 
                 start_over:
                 for (var i = 1; i < firstBuf.Count - 1; i++)

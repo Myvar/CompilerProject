@@ -9,7 +9,7 @@ ProcedureNode => [Name]Identifier, DoubleDouble
 PASS 1                  
 
 // DivisionNode
-ExprNode => [Value]DivisionNode => [A]ExprNode Divide, [B]ExprNode
+ExprNode => [Value]DivisionNode => [A]ExprNode, Divide, [B]ExprNode
 
 // MultiplicationNode                    
 ExprNode => [Value]MultiplicationNode => [A]ExprNode, Multiply, [B]ExprNode
