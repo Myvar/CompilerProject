@@ -100,8 +100,8 @@ namespace Compiler.Frontend
                                         EndOffset = i + subStr.Length
                                     });
 
-                                    i += key.Length;
-                                    col += key.Length;
+                                    i += key.Length - 1;
+                                    col += key.Length - 1;
                                     goto done;
                                 }
                             }
