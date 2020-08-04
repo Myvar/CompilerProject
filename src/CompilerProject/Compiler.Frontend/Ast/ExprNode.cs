@@ -44,4 +44,18 @@ namespace Compiler.Frontend.Ast
         public AstNode A { get; set; }
         public AstNode B { get; set; }
     }
+    
+    
+    public class DeclNode : AstNode
+    {
+        public AstNode Name { get; set; }
+        public AstNode Value { get; set; }
+    }
+    
+    public class AssignmentNode : AstNode
+    {
+        public AstNode Name { get; set; }
+        public AstNode Value { get; set; }
+    }
+
 }

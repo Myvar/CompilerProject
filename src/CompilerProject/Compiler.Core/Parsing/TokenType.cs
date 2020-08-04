@@ -6,16 +6,17 @@ namespace Compiler.Core.Parsing
         UNKNOWN,
         Sof,
         Eof,
-        
+
         Identifier,
         Number,
-        
+
+        DoubleEq,
         Eq,
         Plus,
         Minus,
         Divide,
         Multiply,
-        
+
         OpenRoundBracket,
         CloseRoundBracket
     }

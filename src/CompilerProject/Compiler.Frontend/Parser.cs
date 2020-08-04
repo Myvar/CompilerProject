@@ -39,7 +39,17 @@ namespace Compiler.Frontend
                     (new object[] {typeof(ExprNode), Minus, typeof(ExprNode)},
                         (objs) => new ExprNode
                             {Value = new SubtractionNode {A = objs[0], B = objs[2]}}),
-                }
+                },
+                new List<(object[], Func<AstNode[], AstNode>)>
+                {
+                    (new object[] {typeof(ExprNode), Eq, typeof(ExprNode)},
+                        (objs) => new ExprNode
+                            {Value = new AssignmentNode() {Name = objs[0], Value = objs[2]}}),
+
+                    (new object[] {typeof(ExprNode), DoubleEq, typeof(ExprNode)},
+                        (objs) => new ExprNode
+                            {Value = new DeclNode() {Name = objs[0], Value = objs[2]}}),
+                },
             };
 
         public static DocumentNode Parse(TokenString ts)
@@ -110,13 +120,12 @@ namespace Compiler.Frontend
                             }
 
                             firstBuf.Insert(i, func(args.ToArray()));
-                            
+
                             foreach (var i1 in ag)
                             {
                                 firstBuf.Remove(i1);
                             }
 
-                           
 
                             goto start_over;
                         }
@@ -124,8 +133,17 @@ namespace Compiler.Frontend
                 }
             }
 
+            var re = new DocumentNode();
 
-            return null; //nocommit
+            foreach (var node in firstBuf)
+            {
+                if(node.Raw?.Type == Sof || node.Raw?.Type == Eof) continue;
+                
+                re.Statments.Add(node.Drain());
+            }
+            
+
+            return re; 
         }
     }
 }
