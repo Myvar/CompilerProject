@@ -11,11 +11,14 @@ namespace Compiler.Core.Parsing
         Number,
 
         DoubleEq,
+        DoubleDouble,
+        DoublePoint,
         Eq,
         Plus,
         Minus,
         Divide,
         Multiply,
+        Comma,
 
         OpenRoundBracket,
         CloseRoundBracket

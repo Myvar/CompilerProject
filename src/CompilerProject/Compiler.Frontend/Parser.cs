@@ -12,8 +12,8 @@ namespace Compiler.Frontend
         private static List<(TokenType, Func<Token, AstNode>)> _typeConverterRules =
             new List<(TokenType, Func<Token, AstNode>)>
             {
-                (TokenType.Number, (x) => new ExprNode {Value = new LiteralValueNode {Raw = x}}),
-                (TokenType.Identifier, (x) => new ExprNode {Value = new IdentifierNode() {Raw = x}}),
+                (Number, (x) => new ExprNode {Value = new LiteralValueNode {Raw = x}}),
+                (Identifier, (x) => new ExprNode {Value = new IdentifierNode() {Raw = x}}),
             };
 
 
@@ -22,33 +22,69 @@ namespace Compiler.Frontend
             {
                 new List<(object[], Func<AstNode[], AstNode>)>
                 {
+                    //
+                    // NameTypePair
+                    //
+                    (new object[] {Identifier, DoublePoint, Identifier},
+                        (objs) => new NameTypePair() {Name = objs[0], Type = objs[2]}),
+                },
+                new List<(object[], Func<AstNode[], AstNode>)>
+                {
+                    //
+                    // DivisionNode
+                    //
                     (new object[] {typeof(ExprNode), Divide, typeof(ExprNode)},
                         (objs) => new ExprNode
                             {Value = new DivisionNode {A = objs[0], B = objs[2]}}),
 
+                    //
+                    // MultiplicationNode
+                    //
                     (new object[] {typeof(ExprNode), Multiply, typeof(ExprNode)},
                         (objs) => new ExprNode
                             {Value = new MultiplicationNode {A = objs[0], B = objs[2]}}),
                 },
                 new List<(object[], Func<AstNode[], AstNode>)>
                 {
+                    //
+                    // AdditionNode
+                    //
                     (new object[] {typeof(ExprNode), Plus, typeof(ExprNode)},
                         (objs) => new ExprNode
                             {Value = new AdditionNode {A = objs[0], B = objs[2]}}),
 
+                    //
+                    // SubtractionNode
+                    //
                     (new object[] {typeof(ExprNode), Minus, typeof(ExprNode)},
                         (objs) => new ExprNode
                             {Value = new SubtractionNode {A = objs[0], B = objs[2]}}),
+
+                    //
+                    // ListNode A
+                    //
+                    (new object[] {typeof(NameTypePair), Comma, typeof(NameTypePair)},
+                        (objs) => new ListNode() {A = objs[0], B = objs[2]}),
                 },
                 new List<(object[], Func<AstNode[], AstNode>)>
                 {
+                    //
+                    // AssignmentNode
+                    //
                     (new object[] {typeof(ExprNode), Eq, typeof(ExprNode)},
-                        (objs) => new ExprNode
-                            {Value = new AssignmentNode() {Name = objs[0], Value = objs[2]}}),
+                        (objs) => new AssignmentNode() {Name = objs[0], Value = objs[2]}),
 
+                    //
+                    // DeclNode
+                    //
                     (new object[] {typeof(ExprNode), DoubleEq, typeof(ExprNode)},
-                        (objs) => new ExprNode
-                            {Value = new DeclNode() {Name = objs[0], Value = objs[2]}}),
+                        (objs) => new DeclNode() {Name = objs[0], Value = objs[2]}),
+
+                    //
+                    // ListNode B
+                    //
+                    (new object[] {typeof(ListNode), Comma, typeof(NameTypePair)},
+                        (objs) => new ListNode() {A = objs[0], B = objs[2]}),
                 },
             };
 
@@ -62,24 +98,27 @@ namespace Compiler.Frontend
                 firstBuf.Add(new AstNode {Raw = ts.Tokens[i]});
             }
 
-            for (var i = 0; i < firstBuf.Count; i++)
-            {
-                var node = firstBuf[i];
-
-                foreach (var (type, func) in _typeConverterRules)
-                {
-                    if (node.Raw.Type == type)
-                    {
-                        firstBuf[i] = func(node.Raw);
-                    }
-                }
-            }
-
 
             var passCount = _passRules.Count;
 
             for (int p = 0; p < passCount; p++)
             {
+                if (p == 1)
+                {
+                    for (var i = 0; i < firstBuf.Count; i++)
+                    {
+                        var node = firstBuf[i];
+
+                        foreach (var (type, func) in _typeConverterRules)
+                        {
+                            if (node.Raw?.Type == type)
+                            {
+                                firstBuf[i] = func(node.Raw);
+                            }
+                        }
+                    }
+                }
+
                 var passRules = _passRules[p];
 
                 start_over:
@@ -97,16 +136,16 @@ namespace Compiler.Frontend
                         for (var j = 0; j < objects.Length; j++)
                         {
                             var o = objects[j];
-                            if (!((o is Type t && firstBuf[i + (j - 1)].GetType() == t) ||
-                                  (o is TokenType tt && firstBuf[i + (j - 1)].Raw?.Type == tt)
-                                ))
+                            if ((o is Type t && firstBuf[i + (j - 1)].GetType().Name == t.Name) ||
+                                (o is TokenType tt && firstBuf[i + (j - 1)].Raw?.Type == tt)
+                            )
                             {
-                                flag = false;
-                                break;
+                                args.Add(firstBuf[i + (j - 1)]);
                             }
                             else
                             {
-                                args.Add(firstBuf[i + (j - 1)]);
+                                flag = false;
+                                break;
                             }
                         }
 
@@ -137,13 +176,13 @@ namespace Compiler.Frontend
 
             foreach (var node in firstBuf)
             {
-                if(node.Raw?.Type == Sof || node.Raw?.Type == Eof) continue;
-                
+                if (node.Raw?.Type == Sof || node.Raw?.Type == Eof) continue;
+
                 re.Statments.Add(node.Drain());
             }
-            
 
-            return re; 
+
+            return re;
         }
     }
 }

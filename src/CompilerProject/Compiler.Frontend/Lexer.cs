@@ -24,10 +24,13 @@ namespace Compiler.Frontend
             {
                 {"=", (Eq, ConsoleColor.White)},
                 {":=", (DoubleEq, ConsoleColor.White)},
+                {"::", (DoubleDouble, ConsoleColor.White)},
+                {":", (DoublePoint, ConsoleColor.White)},
                 {"+", (Plus, ConsoleColor.White)},
                 {"-", (Minus, ConsoleColor.White)},
                 {"/", (Divide, ConsoleColor.White)},
                 {"*", (Multiply, ConsoleColor.White)},
+                {",", (Comma, ConsoleColor.White)},
                 
                 {"(", (OpenRoundBracket, ConsoleColor.White)},
                 {")", (CloseRoundBracket, ConsoleColor.White)},
