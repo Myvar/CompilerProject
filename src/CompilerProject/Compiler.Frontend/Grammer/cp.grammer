@@ -1,0 +1,49 @@
+PASS 0
+
+// NameTypePair
+NameTypePair => [Name]Identifier, DoublePoint, [Type]Identifier
+
+// Const Name ProcedureNode                   
+ProcedureNode => [Name]Identifier, DoubleDouble
+
+PASS 1                  
+
+// DivisionNode
+ExprNode => [Value]DivisionNode => [A]ExprNode Divide, [B]ExprNode
+
+// MultiplicationNode                    
+ExprNode => [Value]MultiplicationNode => [A]ExprNode, Multiply, [B]ExprNode
+
+PASS 2
+
+// AdditionNode                    
+ExprNode => [Value]AdditionNode => [A]ExprNode, Plus, [B]ExprNode
+
+// SubtractionNode
+ExprNode => [Value]SubtractionNode => [A]ExprNode, Minus, [B]ExprNode
+
+// ListNode A
+ListNode => [A]NameTypePair, Comma, [B]NameTypePair
+              
+PASS 3
+                    
+// AssignmentNode
+AssignmentNode => [Name]ExprNode, Eq, [Value]ExprNode
+
+// DeclNode                    
+DeclNode => [Name]ExprNode, DoubleEq, [Value]ExprNode
+
+// ListNode B                    
+ListNode => [A]ListNode, Comma, [B]NameTypePair
+        
+// ProcedureArgsNode List
+ProcedureArgsNode => OpenRoundBracket, [Args]ListNode, CloseRoundBracket
+                    
+        
+// ProcedureArgsNode Pair
+ProcedureArgsNode => OpenRoundBracket, [Args]NameTypePair, CloseRoundBracket
+
+PASS 4
+
+// ProcedureNode                    
+ProcedureNode => [Name]ProcedureNode, [Args]ProcedureArgsNode

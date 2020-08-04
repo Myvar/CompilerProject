@@ -27,6 +27,12 @@ namespace Compiler.Frontend
                     //
                     (new object[] {Identifier, DoublePoint, Identifier},
                         (objs) => new NameTypePair() {Name = objs[0], Type = objs[2]}),
+                    
+                    //
+                    // Const Name ProcedureNode
+                    //
+                    (new object[] {Identifier, DoubleDouble},
+                        (objs) => new ProcedureNode() {Name = objs[0]}),
                 },
                 new List<(object[], Func<AstNode[], AstNode>)>
                 {
@@ -85,6 +91,28 @@ namespace Compiler.Frontend
                     //
                     (new object[] {typeof(ListNode), Comma, typeof(NameTypePair)},
                         (objs) => new ListNode() {A = objs[0], B = objs[2]}),
+
+                    //
+                    // ProcedureArgsNode List
+                    //
+                    (new object[] {OpenRoundBracket, typeof(ListNode), CloseRoundBracket},
+                        (objs) => new ProcedureArgsNode() {Args = objs[1]}),
+                    
+                    //
+                    // ProcedureArgsNode Pair
+                    //
+                    (new object[] {OpenRoundBracket, typeof(NameTypePair), CloseRoundBracket},
+                        (objs) => new ProcedureArgsNode() {Args = objs[1]}),
+                },
+
+                new List<(object[], Func<AstNode[], AstNode>)>
+                {
+                    //
+                    // ProcedureNode
+                    //
+                    (new object[] {typeof(ProcedureNode), typeof(ProcedureArgsNode)},
+                        (objs) => new ProcedureNode() {Name = objs[0], Args = objs[1]}),
+                    
                 },
             };
 

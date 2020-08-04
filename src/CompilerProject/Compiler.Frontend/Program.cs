@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Compiler.Frontend
 {
@@ -6,7 +7,9 @@ namespace Compiler.Frontend
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //here we will load the grammer file and generate our code
+
+            var grammerFile = File.ReadAllText("./Grammer/cp.grammer");
         }
     }
 }
