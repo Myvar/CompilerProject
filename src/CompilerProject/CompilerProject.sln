@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler", "Compiler\Compiler.csproj", "{4F5606B8-D0BE-4FF9-A0BA-939CE922176A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler.Frontend", "Compiler.Frontend\Compiler.Frontend.csproj", "{BF46066C-B14A-4C71-BCBD-2061E4EE2585}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler.Core", "Compiler.Core\Compiler.Core.csproj", "{BAF42F0F-0AB5-470E-BBC7-15CA26ED25D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F5606B8-D0BE-4FF9-A0BA-939CE922176A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F5606B8-D0BE-4FF9-A0BA-939CE922176A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F5606B8-D0BE-4FF9-A0BA-939CE922176A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F5606B8-D0BE-4FF9-A0BA-939CE922176A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF46066C-B14A-4C71-BCBD-2061E4EE2585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF46066C-B14A-4C71-BCBD-2061E4EE2585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF46066C-B14A-4C71-BCBD-2061E4EE2585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF46066C-B14A-4C71-BCBD-2061E4EE2585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF42F0F-0AB5-470E-BBC7-15CA26ED25D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF42F0F-0AB5-470E-BBC7-15CA26ED25D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF42F0F-0AB5-470E-BBC7-15CA26ED25D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF42F0F-0AB5-470E-BBC7-15CA26ED25D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
