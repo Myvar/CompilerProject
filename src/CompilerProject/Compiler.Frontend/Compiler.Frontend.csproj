@@ -10,6 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="DotNetGraph" Version="2.6.0" />
       <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     </ItemGroup>
 

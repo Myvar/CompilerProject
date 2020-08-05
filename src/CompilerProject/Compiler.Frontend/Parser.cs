@@ -1,9 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Compiler.Core.Parsing;
 using Compiler.Frontend.Ast;
 using Compiler.Frontend.Grammer;
+using DotNetGraph;
+using DotNetGraph.Extensions;
+using DotNetGraph.Node;
+using DotNetGraph.SubGraph;
 using static Compiler.Core.Parsing.TokenType;
 
 namespace Compiler.Frontend
@@ -17,8 +24,6 @@ namespace Compiler.Frontend
                 (Identifier, (x) => new ExprNode {Value = new IdentifierNode() {Raw = x}}),
             };
 
-
-     
 
         public static DocumentNode Parse(TokenString ts)
         {
@@ -49,6 +54,9 @@ namespace Compiler.Frontend
                             }
                         }
                     }
+                    
+                        
+               
                 }
 
                 var passRules = Rules.PassRules[p];
@@ -102,6 +110,8 @@ namespace Compiler.Frontend
                         }
                     }
                 }
+
+               
             }
 
             var re = new DocumentNode();
@@ -112,7 +122,6 @@ namespace Compiler.Frontend
 
                 re.Statments.Add(node.Drain());
             }
-
 
             return re;
         }

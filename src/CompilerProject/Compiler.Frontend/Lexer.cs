@@ -31,9 +31,12 @@ namespace Compiler.Frontend
                 {"/", (Divide, ConsoleColor.White)},
                 {"*", (Multiply, ConsoleColor.White)},
                 {",", (Comma, ConsoleColor.White)},
-                
+
                 {"(", (OpenRoundBracket, ConsoleColor.White)},
                 {")", (CloseRoundBracket, ConsoleColor.White)},
+
+                {"{", (OpenCurlyBracket, ConsoleColor.White)},
+                {"}", (CloseCurlyBracket, ConsoleColor.White)},
             };
 
         public static TokenString Tokenize(string raw, string fileName)
@@ -46,7 +49,7 @@ namespace Compiler.Frontend
             {
                 Type = Sof
             });
-            
+
             raw = "  " + raw + "  ";
 
             re.Source = raw;
@@ -186,7 +189,7 @@ namespace Compiler.Frontend
             {
                 Type = Eof
             });
-            
+
             return re;
         }
     }

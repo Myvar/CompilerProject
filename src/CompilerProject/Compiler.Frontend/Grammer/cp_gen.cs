@@ -31,9 +31,21 @@ namespace Compiler.Frontend.Grammer
   (objs) => new ExprNode   {Value = new SubtractionNode  {A = objs[0],B = objs[2],}}),
 (new object[] {typeof(NameTypePair),Comma,typeof(NameTypePair),},
  (objs) => new ListNode () {A = objs[0],B = objs[2],}),
+(new object[] {typeof(AssignmentNode),typeof(DeclNode),},
+ (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
+(new object[] {typeof(DeclNode),typeof(AssignmentNode),},
+ (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
 },
    new List<(object[], Func<AstNode[], AstNode>)>
    {
+(new object[] {typeof(CodeBlockList),typeof(AssignmentNode),},
+ (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
+(new object[] {typeof(CodeBlockList),typeof(DeclNode),},
+ (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
+(new object[] {OpenCurlyBracket,typeof(DeclNode),CloseCurlyBracket,},
+ (objs) => new CodeBlock () {Body = objs[1],}),
+(new object[] {OpenCurlyBracket,typeof(AssignmentNode),CloseCurlyBracket,},
+ (objs) => new CodeBlock () {Body = objs[1],}),
 (new object[] {typeof(ExprNode),Eq,typeof(ExprNode),},
  (objs) => new AssignmentNode () {Name = objs[0],Value = objs[2],}),
 (new object[] {typeof(ExprNode),DoubleEq,typeof(ExprNode),},
@@ -47,8 +59,8 @@ namespace Compiler.Frontend.Grammer
 },
    new List<(object[], Func<AstNode[], AstNode>)>
    {
-(new object[] {typeof(ProcedureNode),typeof(ProcedureArgsNode),},
- (objs) => new ProcedureNode () {Name = objs[0],Args = objs[1],}),
+(new object[] {typeof(ProcedureNode),typeof(ProcedureArgsNode),typeof(CodeBlock),},
+ (objs) => new ProcedureNode () {Name = objs[0],Args = objs[1],Body = objs[2],}),
 }
    };
     }

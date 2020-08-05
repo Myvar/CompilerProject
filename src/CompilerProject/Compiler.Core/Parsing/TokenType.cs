@@ -21,6 +21,9 @@ namespace Compiler.Core.Parsing
         Comma,
 
         OpenRoundBracket,
-        CloseRoundBracket
+        CloseRoundBracket,
+        
+        OpenCurlyBracket,
+        CloseCurlyBracket,
     }
 }

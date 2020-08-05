@@ -17,6 +17,9 @@ namespace Compiler
 
 
             var ast = Parser.Parse(ts);
+            
+            ast.DebugPrint();
+            
         }
     }
 }
