@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace Compiler.Frontend
 
         public static DocumentNode Parse(TokenString ts)
         {
+            var sw = new Stopwatch();
+            sw.Start();
             var firstBuf = new List<AstNode>();
 
             //first we convert the toks into ast
@@ -150,7 +153,7 @@ namespace Compiler.Frontend
             //now find errors
 
             var lowestEidx = 1000000;
-            var ast = new AstNode();
+            AstNode ast = null;
 
             foreach (var node in firstBuf)
             {
@@ -164,14 +167,30 @@ namespace Compiler.Frontend
                         lowestEidx = node.ClosestExpected;
                         ast = node;
                     }
-                    
+
                     Logger.Debug(
                         $"Found Un-parsed Node '{node.ReportToken.Raw}' at [L{node.ReportToken.Line}C{node.ReportToken.Col}] of {node.ReportToken.Type} expected {node.Expected} eidx [{node.ClosestExpected}] found {node.Found.Type}");
                 }
             }
 
-            Logger.Error(
-                $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast.Expected} found {ast.Found.Type}");
+            if (ast != null)
+            {
+                Logger.Error(
+                    $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast.Expected} found {ast.Found.Type}");
+
+            //    ast.ReportToken.Type = Error;
+
+                Report
+                    .Error(ast.ReportToken)
+                    .Message(
+                        $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast.Expected} found {ast.Found.Type}")
+                    .Suggestion(
+                        "You should have listened to your mom and studied law but no you want to be a programmer...");
+            }
+
+            sw.Stop();
+
+            Logger.Log($"Parsing took {sw.ElapsedMilliseconds}ms");
 
             return re;
         }

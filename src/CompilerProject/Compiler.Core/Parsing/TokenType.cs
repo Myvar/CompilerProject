@@ -4,6 +4,8 @@ namespace Compiler.Core.Parsing
     {
         // ReSharper disable once InconsistentNaming
         UNKNOWN,
+        Error,
+
         Sof,
         Eof,
 
@@ -22,7 +24,7 @@ namespace Compiler.Core.Parsing
 
         OpenRoundBracket,
         CloseRoundBracket,
-        
+
         OpenCurlyBracket,
         CloseCurlyBracket,
     }

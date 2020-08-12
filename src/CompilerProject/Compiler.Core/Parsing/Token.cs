@@ -14,5 +14,7 @@ namespace Compiler.Core.Parsing
         public ConsoleColor Color { get; set; }
 
         public string Raw { get; set; }
+
+        public TokenString Owner { get; set; }
     }
 }

@@ -183,12 +183,17 @@ namespace Compiler.Frontend
 
             sw.Stop();
 
-            Logger.Debug($"Lexing took {sw.ElapsedMilliseconds}ms");
+            Logger.Log($"Lexing took {sw.ElapsedMilliseconds}ms");
 
             re.Tokens.Add(new Token()
             {
                 Type = Eof
             });
+
+            foreach (var token in re.Tokens)
+            {
+                token.Owner = re;
+            }
 
             return re;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Compiler.Frontend;
 
 namespace Compiler
@@ -9,19 +10,22 @@ namespace Compiler
         {
             var ts = Lexer.Tokenize("./test.delta");
 
-            /*
-            foreach (var tok in ts.Tokens)
+
+            var ast = Parser.Parse(ts);
+
+
+            /*foreach (var tok in ts.Tokens)
             {
                 Console.WriteLine(
                     $"'{tok.Raw}':{tok.Type} [{tok.Line}] [{tok.Col}] [{tok.StartOffset}-{tok.EndOffset}]");
+            }*/
+            // ast.DebugPrint();
+
+            if (Report.Reports.Any())
+            {
+                Console.WriteLine("-------------------------------------------------------------------------------------------");
+                Report.PrintAll();
             }
-            */
-
-
-            var ast = Parser.Parse(ts);
-            
-           // ast.DebugPrint();
-            
         }
     }
 }
