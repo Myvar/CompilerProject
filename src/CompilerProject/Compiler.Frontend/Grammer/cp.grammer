@@ -26,25 +26,23 @@ ExprNode => [Value]SubtractionNode => [A]ExprNode, Minus, [B]ExprNode
 ListNode => [A]NameTypePair, Comma, [B]NameTypePair
 
 
-// CodeBlockList A
-CodeBlockList => [A]AssignmentNode, [B]DeclNode
-CodeBlockList => [A]DeclNode, [B]AssignmentNode
               
 PASS 3
-         
+  
+      
 // Merge CodeBlockList
-CodeBlockList => [A]CodeBlockList, [B]AssignmentNode
-CodeBlockList => [A]CodeBlockList, [B]DeclNode
+CodeBlockList => [A]CodeBlockList, [B]StatementNode
+CodeBlockList => [A]StatementNode, [B]CodeBlockList
+CodeBlockList => [A]StatementNode, [B]StatementNode
 
-//CodeBlock
-CodeBlock => OpenCurlyBracket, [Body]DeclNode, CloseCurlyBracket
-CodeBlock => OpenCurlyBracket, [Body]AssignmentNode, CloseCurlyBracket
+
+CodeBlock => OpenCurlyBracket, [Body]CodeBlockList ,CloseCurlyBracket
                     
 // AssignmentNode
-AssignmentNode => [Name]ExprNode, Eq, [Value]ExprNode
+StatementNode => [Value]AssignmentNode => [Name]ExprNode, Eq, [Value]ExprNode
 
 // DeclNode                    
-DeclNode => [Name]ExprNode, DoubleEq, [Value]ExprNode
+StatementNode => [Value]DeclNode => [Name]ExprNode, DoubleEq, [Value]ExprNode
 
 // ListNode B                    
 ListNode => [A]ListNode, Comma, [B]NameTypePair
@@ -57,8 +55,6 @@ ProcedureArgsNode => OpenRoundBracket, [Args]ListNode, CloseRoundBracket
 ProcedureArgsNode => OpenRoundBracket, [Args]NameTypePair, CloseRoundBracket
 
 PASS 4
-
-//NB FIX THIS BY MAKING A GENERIC WRAPPER AGAIN LIKE EXPR BUT FOR BODY
 
 // ProcedureNode                    
 ProcedureNode => [Name]ProcedureNode, [Args]ProcedureArgsNode, [Body]CodeBlock

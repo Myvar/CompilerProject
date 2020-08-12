@@ -5,6 +5,10 @@ namespace Compiler.Frontend.Ast
     public class CodeBlock : AstNode
     {
         public AstNode Body { get; set; }
+        public override AstNode Drain()
+        {
+            return Body;
+        }
     }
 
     public class CodeBlockList : AstNode
@@ -21,18 +25,18 @@ namespace Compiler.Frontend.Ast
             var y = B.Drain();
 
 
-            if (A is ListNode lna)
+            if (A is CodeBlockList lna)
             {
-                Body.AddRange(lna.Elements);
+                Body.AddRange(lna.Body);
             }
             else
             {
                 Body.Add(A);
             }
 
-            if (B is ListNode lnb)
+            if (B is CodeBlockList lnb)
             {
-                Body.AddRange(lnb.Elements);
+                Body.AddRange(lnb.Body);
             }
             else
             {
