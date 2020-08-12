@@ -10,10 +10,17 @@ namespace Compiler.Frontend
         {
             return this;
         }
-        
+
         public Token Raw { get; set; }
-        
-         #region DebugPrintOut
+        public Token ReportToken { get; set; }
+
+        public bool Parsed { get; set; }
+
+        public int ClosestExpected { get; set; }
+        public string Expected { get; set; }
+        public Token Found { get; set; }
+
+        #region DebugPrintOut
 
         private class Node
         {
@@ -183,7 +190,7 @@ namespace Compiler.Frontend
                         {
                             n.Name = Foreground(5) + property.Name + Reset();
                         }
-                       
+
 
                         IterateAst(n.Children, x);
 
@@ -200,7 +207,7 @@ namespace Compiler.Frontend
                             n.Name =
                                 $"{Foreground(6)}{property.Name}{Foreground(251)} = {Foreground(1)}'{x.Raw}'{Reset()}";
                         }
-                       
+
 
                         //IterateAst(n.Children, x);
 

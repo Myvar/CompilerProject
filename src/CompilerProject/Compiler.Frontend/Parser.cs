@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Compiler.Core;
 using Compiler.Core.Parsing;
 using Compiler.Frontend.Ast;
 using Compiler.Frontend.Grammer;
@@ -32,7 +33,7 @@ namespace Compiler.Frontend
             //first we convert the toks into ast
             for (var i = 0; i < ts.Tokens.Count; i++)
             {
-                firstBuf.Add(new AstNode {Raw = ts.Tokens[i]});
+                firstBuf.Add(new AstNode {Raw = ts.Tokens[i], ReportToken = ts.Tokens[i]});
             }
 
 
@@ -51,12 +52,10 @@ namespace Compiler.Frontend
                             if (node.Raw?.Type == type)
                             {
                                 firstBuf[i] = func(node.Raw);
+                                firstBuf[i].ReportToken = node.ReportToken;
                             }
                         }
                     }
-                    
-                        
-               
                 }
 
                 var passRules = Rules.PassRules[p];
@@ -84,6 +83,25 @@ namespace Compiler.Frontend
                             }
                             else
                             {
+                                if (j >= firstBuf[i + (j - 1)].ClosestExpected)
+                                {
+                                    firstBuf[i + (j - 1)].ClosestExpected = j;
+                                    firstBuf[i + (j - 1)].Expected = o switch
+                                    {
+                                        Type type => type.Name,
+                                        TokenType toketype => toketype.ToString(),
+                                        _ => "Unknown"
+                                    };
+                                    if (firstBuf[i + (j - 1)].Raw != null)
+                                    {
+                                        firstBuf[i + (j - 1)].Found = firstBuf[i + (j - 1)].Raw;
+                                    }
+                                    else
+                                    {
+                                        firstBuf[i + (j - 1)].Found = firstBuf[i + (j - 1)].ReportToken;
+                                    }
+                                }
+
                                 flag = false;
                                 break;
                             }
@@ -96,9 +114,17 @@ namespace Compiler.Frontend
                             for (var index = 0; index < args.Count; index++)
                             {
                                 args[index] = args[index].Drain();
+                                args[index].Parsed = true;
                             }
 
-                            firstBuf.Insert(i, func(args.ToArray()));
+
+                            var res = func(args.ToArray());
+                            res.Parsed = true;
+
+                            res.ReportToken = ag[0].ReportToken;
+
+                            firstBuf.Insert(i, res);
+
 
                             foreach (var i1 in ag)
                             {
@@ -110,8 +136,6 @@ namespace Compiler.Frontend
                         }
                     }
                 }
-
-               
             }
 
             var re = new DocumentNode();
@@ -122,6 +146,32 @@ namespace Compiler.Frontend
 
                 re.Statments.Add(node.Drain());
             }
+
+            //now find errors
+
+            var lowestEidx = 1000000;
+            var ast = new AstNode();
+
+            foreach (var node in firstBuf)
+            {
+                if (node.ReportToken?.Type == Eof || node.ReportToken?.Type == Sof) continue;
+
+
+                if (!node.Parsed && node.ReportToken != null && node.Expected != "")
+                {
+                    if (node.ClosestExpected < lowestEidx)
+                    {
+                        lowestEidx = node.ClosestExpected;
+                        ast = node;
+                    }
+                    
+                    Logger.Debug(
+                        $"Found Un-parsed Node '{node.ReportToken.Raw}' at [L{node.ReportToken.Line}C{node.ReportToken.Col}] of {node.ReportToken.Type} expected {node.Expected} eidx [{node.ClosestExpected}] found {node.Found.Type}");
+                }
+            }
+
+            Logger.Error(
+                $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast.Expected} found {ast.Found.Type}");
 
             return re;
         }

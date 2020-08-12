@@ -55,6 +55,8 @@ namespace Compiler.Frontend.Grammer
 },
    new List<(object[], Func<AstNode[], AstNode>)>
    {
+(new object[] {OpenCurlyBracket,CloseCurlyBracket,},
+ (objs) => new CodeBlock () {}),
 (new object[] {typeof(ProcedureNode),typeof(ProcedureArgsNode),typeof(CodeBlock),},
  (objs) => new ProcedureNode () {Name = objs[0],Args = objs[1],Body = objs[2],}),
 }

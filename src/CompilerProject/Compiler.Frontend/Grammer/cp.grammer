@@ -56,5 +56,7 @@ ProcedureArgsNode => OpenRoundBracket, [Args]NameTypePair, CloseRoundBracket
 
 PASS 4
 
+CodeBlock => OpenCurlyBracket, CloseCurlyBracket
+
 // ProcedureNode                    
 ProcedureNode => [Name]ProcedureNode, [Args]ProcedureArgsNode, [Body]CodeBlock
