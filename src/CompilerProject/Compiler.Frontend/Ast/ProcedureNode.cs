@@ -4,10 +4,10 @@ namespace Compiler.Frontend.Ast
     {
         public AstNode Args { get; set; }
 
-        /*public override AstNode Drain()
+        public override AstNode Drain()
         {
             return Args;
-        }*/
+        }
     }
     
     public class ProcedureNode : AstNode

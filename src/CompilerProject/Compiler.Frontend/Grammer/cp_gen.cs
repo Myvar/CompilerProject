@@ -34,14 +34,6 @@ namespace Compiler.Frontend.Grammer
 },
    new List<(object[], Func<AstNode[], AstNode>)>
    {
-(new object[] {typeof(CodeBlockList),typeof(StatementNode),},
- (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
-(new object[] {typeof(StatementNode),typeof(CodeBlockList),},
- (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
-(new object[] {typeof(StatementNode),typeof(StatementNode),},
- (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
-(new object[] {OpenCurlyBracket,typeof(CodeBlockList),CloseCurlyBracket,},
- (objs) => new CodeBlock () {Body = objs[1],}),
 (new object[] {typeof(ExprNode),Eq,typeof(ExprNode),},
   (objs) => new StatementNode   {Value = new AssignmentNode  {Name = objs[0],Value = objs[2],}}),
 (new object[] {typeof(ExprNode),DoubleEq,typeof(ExprNode),},
@@ -55,6 +47,16 @@ namespace Compiler.Frontend.Grammer
 },
    new List<(object[], Func<AstNode[], AstNode>)>
    {
+(new object[] {typeof(CodeBlockList),typeof(StatementNode),},
+ (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
+(new object[] {typeof(StatementNode),typeof(CodeBlockList),},
+ (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
+(new object[] {typeof(StatementNode),typeof(StatementNode),},
+ (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
+(new object[] {OpenCurlyBracket,typeof(CodeBlockList),CloseCurlyBracket,},
+ (objs) => new CodeBlock () {Body = objs[1],}),
+(new object[] {OpenCurlyBracket,typeof(StatementNode),CloseCurlyBracket,},
+ (objs) => new CodeBlock () {Body = objs[1],}),
 (new object[] {OpenCurlyBracket,CloseCurlyBracket,},
  (objs) => new CodeBlock () {}),
 (new object[] {typeof(ProcedureNode),typeof(ProcedureArgsNode),typeof(CodeBlock),},

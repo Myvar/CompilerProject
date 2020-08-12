@@ -30,13 +30,7 @@ ListNode => [A]NameTypePair, Comma, [B]NameTypePair
 PASS 3
   
       
-// Merge CodeBlockList
-CodeBlockList => [A]CodeBlockList, [B]StatementNode
-CodeBlockList => [A]StatementNode, [B]CodeBlockList
-CodeBlockList => [A]StatementNode, [B]StatementNode
 
-
-CodeBlock => OpenCurlyBracket, [Body]CodeBlockList ,CloseCurlyBracket
                     
 // AssignmentNode
 StatementNode => [Value]AssignmentNode => [Name]ExprNode, Eq, [Value]ExprNode
@@ -55,6 +49,14 @@ ProcedureArgsNode => OpenRoundBracket, [Args]ListNode, CloseRoundBracket
 ProcedureArgsNode => OpenRoundBracket, [Args]NameTypePair, CloseRoundBracket
 
 PASS 4
+
+// Merge CodeBlockList
+CodeBlockList => [A]CodeBlockList, [B]StatementNode
+CodeBlockList => [A]StatementNode, [B]CodeBlockList
+CodeBlockList => [A]StatementNode, [B]StatementNode
+
+CodeBlock => OpenCurlyBracket, [Body]CodeBlockList ,CloseCurlyBracket
+CodeBlock => OpenCurlyBracket, [Body]StatementNode ,CloseCurlyBracket
 
 CodeBlock => OpenCurlyBracket, CloseCurlyBracket
 

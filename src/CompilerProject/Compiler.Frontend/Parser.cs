@@ -151,7 +151,8 @@ namespace Compiler.Frontend
             }
 
             //now find errors
-
+            
+            //if there are more than 1 million steps/errors in this syntax then well just give up wtf
             var lowestEidx = 1000000;
             AstNode ast = null;
 
@@ -185,7 +186,14 @@ namespace Compiler.Frontend
                     .Message(
                         $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast.Expected} found {ast.Found.Type}")
                     .Suggestion(
-                        "You should have listened to your mom and studied law but no you want to be a programmer...");
+                        "You should have listened to your mom and studied law but no you want to be a programmer...")
+                    .Suggestion("Look on stackover flow")
+                    .Suggestion("Call that one friend who actually knows what he is doing")
+                    .Suggestion("Remember the 5 stages of debugging:  1. Denial 2. Bargaining 3. Anger 4. Deperstion 5. Acceptance.")
+                    .Suggestion("Plant a garden, get a pet, go outside for once")
+                    .Suggestion("Call it a feature and go play some games")
+                    
+                    ;
             }
 
             sw.Stop();
