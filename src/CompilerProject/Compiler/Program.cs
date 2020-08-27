@@ -19,7 +19,7 @@ namespace Compiler
                 Console.WriteLine(
                     $"'{tok.Raw}':{tok.Type} [{tok.Line}] [{tok.Col}] [{tok.StartOffset}-{tok.EndOffset}]");
             }*/
-            // ast.DebugPrint();
+             ast.DebugPrint();
 
             if (Report.Reports.Any())
             {

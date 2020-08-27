@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Compiler.Core;
 using Compiler.Core.Parsing;
 using Compiler.Frontend.Ast;
@@ -60,7 +61,7 @@ namespace Compiler.Frontend
                         }
                     }
                 }
-
+                //nocommit
                 var passRules = Rules.PassRules[p];
 
                 start_over:
@@ -68,9 +69,11 @@ namespace Compiler.Frontend
                 {
                     if (firstBuf[i] == null) continue;
 
-
+                    var startOver = false;
+                    // Parallel.ForEach(passRules, tuple =>
                     foreach (var (objects, func) in passRules)
                     {
+                        // var (objects, func) = tuple;
                         var flag = true;
 
                         var args = new List<AstNode>();
@@ -134,9 +137,19 @@ namespace Compiler.Frontend
                                 firstBuf.Remove(i1);
                             }
 
+                            startOver = true;
 
-                            goto start_over;
+                            goto exit;
                         }
+
+                        exit: ;
+                    }
+                    //);
+
+                    if (startOver)
+                    {
+                        startOver = false;
+                        goto start_over;
                     }
                 }
             }
@@ -151,7 +164,7 @@ namespace Compiler.Frontend
             }
 
             //now find errors
-            
+
             //if there are more than 1 million steps/errors in this syntax then well just give up wtf
             var lowestEidx = 1000000;
             AstNode ast = null;
@@ -179,7 +192,7 @@ namespace Compiler.Frontend
                 Logger.Error(
                     $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast.Expected} found {ast.Found.Type}");
 
-            //    ast.ReportToken.Type = Error;
+                //    ast.ReportToken.Type = Error;
 
                 Report
                     .Error(ast.ReportToken)
@@ -189,10 +202,10 @@ namespace Compiler.Frontend
                         "You should have listened to your mom and studied law but no you want to be a programmer...")
                     .Suggestion("Look on stackover flow")
                     .Suggestion("Call that one friend who actually knows what he is doing")
-                    .Suggestion("Remember the 5 stages of debugging:  1. Denial 2. Bargaining 3. Anger 4. Deperstion 5. Acceptance.")
+                    .Suggestion(
+                        "Remember the 5 stages of debugging:  1. Denial 2. Bargaining 3. Anger 4. Deperstion 5. Acceptance.")
                     .Suggestion("Plant a garden, get a pet, go outside for once")
                     .Suggestion("Call it a feature and go play some games")
-                    
                     ;
             }
 
