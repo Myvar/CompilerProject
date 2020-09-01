@@ -57,10 +57,12 @@ namespace Compiler.Frontend
                             {
                                 firstBuf[i] = func(node.Raw);
                                 firstBuf[i].ReportToken = node.ReportToken;
+                                firstBuf[i].Expected = "";
                             }
                         }
                     }
                 }
+
                 //nocommit
                 var passRules = Rules.PassRules[p];
 
@@ -120,7 +122,7 @@ namespace Compiler.Frontend
                             for (var index = 0; index < args.Count; index++)
                             {
                                 args[index] = args[index].Drain();
-                                args[index].Parsed = true;
+                                if (args[index] != null) args[index].Parsed = true;
                             }
 
 

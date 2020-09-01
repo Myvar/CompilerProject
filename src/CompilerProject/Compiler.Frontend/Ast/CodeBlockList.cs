@@ -2,36 +2,36 @@ using System.Collections.Generic;
 
 namespace Compiler.Frontend.Ast
 {
-    public class ListNode : AstNode
+    public class CodeBlockList : AstNode
     {
-        public List<AstNode> Elements { get; set; } = new List<AstNode>();
+        public List<AstNode> Body { get; set; } = new List<AstNode>();
 
         public AstNode A { get; set; }
         public AstNode B { get; set; }
 
         public override AstNode Drain()
         {
-            Elements.Clear();
+            Body.Clear();
             var x = A.Drain();
             var y = B.Drain();
 
 
-            if (A is ListNode lna)
+            if (A is CodeBlockList lna)
             {
-                Elements.AddRange(lna.Elements);
+                Body.AddRange(lna.Body);
             }
             else
             {
-                Elements.Add(A);
+                Body.Add(A);
             }
 
-            if (B is ListNode lnb)
+            if (B is CodeBlockList lnb)
             {
-                Elements.AddRange(lnb.Elements);
+                Body.AddRange(lnb.Body);
             }
             else
             {
-                Elements.Add(B);
+                Body.Add(B);
             }
 
 

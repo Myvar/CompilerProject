@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Compiler.Frontend.Ast
 {
-    public class ListNode : AstNode
+    public class ParametersList : AstNode
     {
         public List<AstNode> Elements { get; set; } = new List<AstNode>();
 
@@ -13,10 +13,10 @@ namespace Compiler.Frontend.Ast
         {
             Elements.Clear();
             var x = A.Drain();
-            var y = B.Drain();
+            var y = B?.Drain();
 
 
-            if (A is ListNode lna)
+            if (A is ParametersList lna)
             {
                 Elements.AddRange(lna.Elements);
             }
@@ -25,7 +25,7 @@ namespace Compiler.Frontend.Ast
                 Elements.Add(A);
             }
 
-            if (B is ListNode lnb)
+            if (B is ParametersList lnb)
             {
                 Elements.AddRange(lnb.Elements);
             }

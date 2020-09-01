@@ -14,6 +14,8 @@ namespace Compiler.Frontend
         public Token Raw { get; set; }
         public Token ReportToken { get; set; }
 
+        public List<string> Attributes { get; set; } = new List<string>();
+
         public bool Parsed { get; set; }
 
         public int ClosestExpected { get; set; }
@@ -96,6 +98,7 @@ namespace Compiler.Frontend
 
         private void IterateAst(List<Node> nodes, object active)
         {
+            if(active == null) return;
             var node = new Node();
             node.Name = Foreground(3) + active.GetType().Name + Reset();
 

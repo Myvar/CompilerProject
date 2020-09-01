@@ -15,6 +15,8 @@ namespace Compiler.Frontend.Grammer
  (objs) => new NameTypePair () {Name = objs[0],Type = objs[2],}),
 (new object[] {Identifier,DoubleDouble,},
  (objs) => new ProcedureNode () {Name = objs[0],}),
+(new object[] {At,Identifier,},
+ (objs) => new AttributeNodeName () {Name = objs[1],}),
 },
    new List<(object[], Func<AstNode[], AstNode>)>
    {
@@ -34,19 +36,25 @@ namespace Compiler.Frontend.Grammer
 },
    new List<(object[], Func<AstNode[], AstNode>)>
    {
-(new object[] {typeof(ExprNode),Eq,typeof(ExprNode),},
+(new object[] {typeof(ExprNode),Eq,typeof(ExprNode),SemiColon,},
   (objs) => new StatementNode   {Value = new AssignmentNode  {Name = objs[0],Value = objs[2],}}),
-(new object[] {typeof(ExprNode),DoubleEq,typeof(ExprNode),},
+(new object[] {typeof(ExprNode),DoubleEq,typeof(ExprNode),SemiColon,},
   (objs) => new StatementNode   {Value = new DeclNode  {Name = objs[0],Value = objs[2],}}),
+(new object[] {typeof(InvokeNode),CloseRoundBracket,SemiColon,},
+  (objs) => new StatementNode   {Value = new InvokeNode  {Target = objs[0],}}),
 (new object[] {typeof(ListNode),Comma,typeof(NameTypePair),},
  (objs) => new ListNode () {A = objs[0],B = objs[2],}),
 (new object[] {OpenRoundBracket,typeof(ListNode),CloseRoundBracket,},
  (objs) => new ProcedureArgsNode () {Args = objs[1],}),
 (new object[] {OpenRoundBracket,typeof(NameTypePair),CloseRoundBracket,},
  (objs) => new ProcedureArgsNode () {Args = objs[1],}),
+(new object[] {OpenRoundBracket,CloseRoundBracket,},
+ (objs) => new ProcedureArgsNode () {}),
 },
    new List<(object[], Func<AstNode[], AstNode>)>
    {
+(new object[] {typeof(ProcedureNode),typeof(ProcedureArgsNode),SemiColon,},
+ (objs) => new ProcedureNode () {Name = objs[0],Args = objs[1],}),
 (new object[] {typeof(CodeBlockList),typeof(StatementNode),},
  (objs) => new CodeBlockList () {A = objs[0],B = objs[1],}),
 (new object[] {typeof(StatementNode),typeof(CodeBlockList),},
@@ -61,6 +69,11 @@ namespace Compiler.Frontend.Grammer
  (objs) => new CodeBlock () {}),
 (new object[] {typeof(ProcedureNode),typeof(ProcedureArgsNode),typeof(CodeBlock),},
  (objs) => new ProcedureNode () {Name = objs[0],Args = objs[1],Body = objs[2],}),
+},
+   new List<(object[], Func<AstNode[], AstNode>)>
+   {
+(new object[] {typeof(AttributeNodeName),typeof(ProcedureNode),},
+ (objs) => new AttributeNode () {Name = objs[0],Client = objs[1],}),
 }
    };
     }

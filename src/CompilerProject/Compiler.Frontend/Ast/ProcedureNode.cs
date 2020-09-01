@@ -1,15 +1,7 @@
+using Compiler.Core;
+
 namespace Compiler.Frontend.Ast
 {
-    public class ProcedureArgsNode : AstNode
-    {
-        public AstNode Args { get; set; }
-
-        public override AstNode Drain()
-        {
-            return Args;
-        }
-    }
-    
     public class ProcedureNode : AstNode
     {
         public AstNode Name { get; set; }
@@ -21,7 +13,10 @@ namespace Compiler.Frontend.Ast
             if (Name is ProcedureNode node)
             {
                 Name = node.Name;
+
+                Scope.Procedure.Add(node.Name.Raw.Raw);
             }
+
             return this;
         }
     }

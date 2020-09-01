@@ -22,6 +22,8 @@ namespace Compiler.Frontend
         private static Dictionary<string, (TokenType, ConsoleColor)> _terminals =
             new Dictionary<string, (TokenType, ConsoleColor)>
             {
+                {";", (SemiColon, ConsoleColor.Gray)},
+                {"@", (At, ConsoleColor.Green)},
                 {"=", (Eq, ConsoleColor.White)},
                 {":=", (DoubleEq, ConsoleColor.White)},
                 {"::", (DoubleDouble, ConsoleColor.White)},
@@ -84,6 +86,18 @@ namespace Compiler.Frontend
                 {
                     case 0:
                     {
+                        if (c == '/' && a == '/')
+                        {
+                            state = 3;
+                            break;
+                        }
+
+                        if (c == '/' && a == '*')
+                        {
+                            state = 4;
+                            break;
+                        }
+
                         foreach (var (key, (type, color)) in _terminals)
                         {
                             //is the remaining string long enuf to contain this key
@@ -172,6 +186,24 @@ namespace Compiler.Frontend
                         else
                         {
                             buf.Append(c);
+                        }
+
+                        break;
+                    }
+                    case 3:
+                    {
+                        if (c == '\n')
+                        {
+                            state = 0;
+                        }
+
+                        break;
+                    }
+                    case 4:
+                    {
+                        if (c == '/' && b == '*')
+                        {
+                            state = 0;
                         }
 
                         break;

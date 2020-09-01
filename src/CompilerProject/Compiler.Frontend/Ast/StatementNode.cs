@@ -1,9 +1,6 @@
-using System.Diagnostics;
-
 namespace Compiler.Frontend.Ast
 {
-  
-    public class ExprNode : AstNode
+    public class StatementNode : AstNode
     {
         public AstNode Value { get; set; }
 

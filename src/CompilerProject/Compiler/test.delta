@@ -1,5 +1,23 @@
+
+@extern
+print :: (x : i32);
+
+
 sum :: (x : i32, y : i32) {
-    ,
-    ret = x + y
+    ret = x + y;
+}
+/*
+double :: (x : i32) {
+    ret = x * 2;
 }
 
+main :: () {
+    print()
+
+    //x = sum(10, 5);
+    //y = double(x);
+    
+   // print(x);
+   // print(y);
+}
+*/
