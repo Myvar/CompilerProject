@@ -13,10 +13,22 @@ AttributeNodeName => At, [Name]Identifier
 
 PASS 1                  
 
+
+//Not
+ExprNode => [Value]UnaryOperator => [Operator]Not, [Argument]ExprNode
+
+//AndBitwise
+ExprNode => [Value]AndBitWiseNode => [A]ExprNode, AndBitWise, [B]ExprNode
+
+//AndBool
+ExprNode => [Value]AndBoolNode => [A]ExprNode, AndBool, [B]ExprNode
+
 // DivisionNode
 ExprNode => [Value]DivisionNode => [A]ExprNode, Divide, [B]ExprNode
 
 // MultiplicationNode                    
+ExprNode => [Value]MultiplicationNode => [A]ExprNode, Multiply, [B]ExprNode
+
 ExprNode => [Value]MultiplicationNode => [A]ExprNode, Multiply, [B]ExprNode
 
 PASS 2
@@ -26,6 +38,16 @@ ExprNode => [Value]AdditionNode => [A]ExprNode, Plus, [B]ExprNode
 
 // SubtractionNode
 ExprNode => [Value]SubtractionNode => [A]ExprNode, Minus, [B]ExprNode
+
+//OrBool
+ExprNode => [Value]OrBoolNode => [A]ExprNode, OrBool, [B]ExprNode
+
+//EqBool
+ExprNode => [Value]EqNode => [A]ExprNode, EqBool, [B]ExprNode
+
+// ComparisonNode
+ExprNode => [Value]ComparisonNode => [A]ExprNode, [Operator]LessThan, [B]ExprNode
+ExprNode => [Value]ComparisonNode => [A]ExprNode, [Operator]GreaterThan, [B]ExprNode
 
 // ListNode A
 ListNode => [A]NameTypePair, Comma, [B]NameTypePair
@@ -64,6 +86,24 @@ StatementNode => [Value]DeclNode => [Name]ExprNode, DoubleEq, [Value]ExprNode, S
 StatementNode => [Value]DeclNode => [Name]ExprNode, DoubleEq, [Value]StatementNode  
 
 
+// Merge CodeBlockList
+CodeBlockList => [A]CodeBlockList, [B]StatementNode
+CodeBlockList => [A]StatementNode, [B]CodeBlockList
+CodeBlockList => [A]StatementNode, [B]StatementNode
+CodeBlockList => [A]CodeBlockList, [B]CodeBlockList
+CodeBlockList => [A]CodeBlock, [B]CodeBlock
+
+CodeBlock => OpenCurlyBracket, [Body]CodeBlockList ,CloseCurlyBracket
+CodeBlock => OpenCurlyBracket, [Body]StatementNode ,CloseCurlyBracket
+
+CodeBlock => OpenCurlyBracket, CloseCurlyBracket
+
+StatementNode => [Value]IfNode => If, [Condition]ExprNode, [Body]CodeBlock
+StatementNode => [Value]LoopNode => Loop, [Condition]ExprNode, [Body]CodeBlock
+
+
+
+
 PASS 5
 
 
@@ -71,10 +111,7 @@ ProcedureNode => [Name]ProcedureNode, [Args]ProcedureArgsNode, Arrow, [ReturnTyp
 ProcedureNode => [Name]ProcedureNode, [Args]ProcedureArgsNode, SemiColon
 
 
-// Merge CodeBlockList
-CodeBlockList => [A]CodeBlockList, [B]StatementNode
-CodeBlockList => [A]StatementNode, [B]CodeBlockList
-CodeBlockList => [A]StatementNode, [B]StatementNode
+
 
 CodeBlock => OpenCurlyBracket, [Body]CodeBlockList ,CloseCurlyBracket
 CodeBlock => OpenCurlyBracket, [Body]StatementNode ,CloseCurlyBracket

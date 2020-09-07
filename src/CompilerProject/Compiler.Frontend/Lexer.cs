@@ -22,13 +22,22 @@ namespace Compiler.Frontend
         private static Dictionary<string, (TokenType, ConsoleColor)> _terminals =
             new Dictionary<string, (TokenType, ConsoleColor)>
             {
+                {"if", (If, ConsoleColor.Gray)},
+                {"==", (EqBool, ConsoleColor.Gray)},
+                {"loop", (Loop, ConsoleColor.Gray)},
                 {";", (SemiColon, ConsoleColor.Gray)},
+                {">", (LessThan, ConsoleColor.Gray)},
+                {"<", (GreaterThan, ConsoleColor.Gray)},
                 {"->", (Arrow, ConsoleColor.Gray)},
                 {"@", (At, ConsoleColor.Green)},
                 {"=", (Eq, ConsoleColor.White)},
                 {":=", (DoubleEq, ConsoleColor.White)},
                 {"::", (DoubleDouble, ConsoleColor.White)},
                 {":", (DoublePoint, ConsoleColor.White)},
+                {"&&", (AndBool, ConsoleColor.White)},
+                {"||", (OrBool, ConsoleColor.White)},
+                {"&", (AndBitWise, ConsoleColor.White)},
+                {"!", (Not, ConsoleColor.White)},
                 {"+", (Plus, ConsoleColor.White)},
                 {"-", (Minus, ConsoleColor.White)},
                 {"/", (Divide, ConsoleColor.White)},

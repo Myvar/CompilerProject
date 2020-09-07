@@ -12,10 +12,9 @@ double :: (x : i32) -> i32 {
 main :: () {
     print(10);
 
-    x = sum(10, 5);
-    y = double(x);
+    x := sum(10, 5);
     
-    print(x);
-    print(y);
+    loop x < 50 {
+        x = x + 1;
+    }
 }
-
