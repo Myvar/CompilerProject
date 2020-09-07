@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Compiler.Core.Parsing;
+using Compiler.Frontend.Ast;
 
 namespace Compiler.Frontend
 {
@@ -98,12 +100,20 @@ namespace Compiler.Frontend
 
         private void IterateAst(List<Node> nodes, object active)
         {
-            if(active == null) return;
+            if (active == null) return;
             var node = new Node();
             node.Name = Foreground(3) + active.GetType().Name + Reset();
 
+
+            var exlude = new[]
+                {"ClosestExpected", "Parsed", "ClosestExpected", "Expected", "Found", "ReportToken"};
+            var exludeb = new[]
+                {"A", "B", "ClosestExpected", "Parsed", "ClosestExpected", "Expected", "Found", "ReportToken"};
+
             foreach (var property in active.GetType().GetProperties())
             {
+                if ((exludeb.Contains(property.Name) && (active is ListNode || active is InvokeListNode || active is CodeBlockList)) ||
+                    (exlude.Contains(property.Name) && !(active is ListNode || active is InvokeListNode|| active is CodeBlockList))) continue;
                 if (property.PropertyType == typeof(List<AstNode>))
                 {
                     var lst = (List<AstNode>) property.GetValue(active);

@@ -16,6 +16,7 @@ namespace Compiler.Core.Parsing
         DoubleDouble,
         DoublePoint,
         SemiColon,
+        Arrow,
         Eq,
         At,
         Plus,

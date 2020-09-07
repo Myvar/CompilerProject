@@ -3,18 +3,13 @@ PASS 0
 // NameTypePair
 NameTypePair => [Name]Identifier, DoublePoint, [Type]Identifier
 
-//InvokeNode => [Target]Identifier, OpenRoundBracket
+InvokeNodeName => [Target]Identifier, OpenRoundBracket
 
 // Const Name ProcedureNode                   
 ProcedureNode => [Name]Identifier, DoubleDouble
 
 
 AttributeNodeName => At, [Name]Identifier
-
-
-
-
-
 
 PASS 1                  
 
@@ -34,38 +29,47 @@ ExprNode => [Value]SubtractionNode => [A]ExprNode, Minus, [B]ExprNode
 
 // ListNode A
 ListNode => [A]NameTypePair, Comma, [B]NameTypePair
-
-
-              
-PASS 3
-  
-      
-
-                    
-// AssignmentNode
-StatementNode => [Value]AssignmentNode => [Name]ExprNode, Eq, [Value]ExprNode, SemiColon
-
-// DeclNode                    
-StatementNode => [Value]DeclNode => [Name]ExprNode, DoubleEq, [Value]ExprNode, SemiColon
-
-// InvokeNode
-StatementNode => [Value]InvokeNode => [Target]InvokeNode, CloseRoundBracket, SemiColon
-
-// ListNode B                    
 ListNode => [A]ListNode, Comma, [B]NameTypePair
+InvokeListNode => [A]InvokeListNode, Comma, [B]ExprNode
+InvokeListNode => [A]ExprNode, Comma, [B]ExprNode
+
+      
+PASS 3
+             
+
+
+
 // ProcedureArgsNode List
 ProcedureArgsNode => OpenRoundBracket, [Args]ListNode, CloseRoundBracket
-                    
-        
+
 // ProcedureArgsNode Pair
 ProcedureArgsNode => OpenRoundBracket, [Args]NameTypePair, CloseRoundBracket
 ProcedureArgsNode => OpenRoundBracket, CloseRoundBracket
 
-
+// InvokeNode
+StatementNode => [Value]InvokeNode => [Target]InvokeNodeName, [Arguments]InvokeListNode, CloseRoundBracket, SemiColon
+StatementNode => [Value]InvokeNode => [Target]InvokeNodeName, [Arguments]ExprNode, CloseRoundBracket, SemiColon
+StatementNode => [Value]InvokeNode => [Target]InvokeNodeName, CloseRoundBracket, SemiColon
 
 PASS 4
 
+// AssignmentNode
+
+StatementNode => [Value]AssignmentNode => [Name]ExprNode, Eq, [Value]ExprNode, SemiColon
+StatementNode => [Value]AssignmentNode => [Name]ExprNode, Eq, [Value]StatementNode
+
+// DeclNode         
+         
+StatementNode => [Value]DeclNode => [Name]ExprNode, DoubleEq, [Value]ExprNode, SemiColon
+StatementNode => [Value]DeclNode => [Name]ExprNode, DoubleEq, [Value]StatementNode  
+
+
+PASS 5
+
+
+ProcedureNode => [Name]ProcedureNode, [Args]ProcedureArgsNode, Arrow, [ReturnType]ExprNode, SemiColon
 ProcedureNode => [Name]ProcedureNode, [Args]ProcedureArgsNode, SemiColon
+
 
 // Merge CodeBlockList
 CodeBlockList => [A]CodeBlockList, [B]StatementNode
@@ -77,11 +81,11 @@ CodeBlock => OpenCurlyBracket, [Body]StatementNode ,CloseCurlyBracket
 
 CodeBlock => OpenCurlyBracket, CloseCurlyBracket
 
-// ProcedureNode                    
+// ProcedureNode             
+ProcedureNode => [Name]ProcedureNode, [Args]ProcedureArgsNode, Arrow, [ReturnType]ExprNode, [Body]CodeBlock       
 ProcedureNode => [Name]ProcedureNode, [Args]ProcedureArgsNode, [Body]CodeBlock
 
-
-PASS 5
+PASS 6
 
 //Attribute
 AttributeNode => [Name]AttributeNodeName, [Client]ProcedureNode

@@ -1,23 +1,21 @@
-
 @extern
 print :: (x : i32);
 
-
-sum :: (x : i32, y : i32) {
+sum :: (x : i32, y : i32, z : i32) -> i32 {
     ret = x + y;
 }
-/*
-double :: (x : i32) {
+
+double :: (x : i32) -> i32 {
     ret = x * 2;
 }
 
 main :: () {
-    print()
+    print(10);
 
-    //x = sum(10, 5);
-    //y = double(x);
+    x = sum(10, 5);
+    y = double(x);
     
-   // print(x);
-   // print(y);
+    print(x);
+    print(y);
 }
-*/
+

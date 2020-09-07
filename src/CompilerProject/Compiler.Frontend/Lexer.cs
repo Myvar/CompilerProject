@@ -23,6 +23,7 @@ namespace Compiler.Frontend
             new Dictionary<string, (TokenType, ConsoleColor)>
             {
                 {";", (SemiColon, ConsoleColor.Gray)},
+                {"->", (Arrow, ConsoleColor.Gray)},
                 {"@", (At, ConsoleColor.Green)},
                 {"=", (Eq, ConsoleColor.White)},
                 {":=", (DoubleEq, ConsoleColor.White)},

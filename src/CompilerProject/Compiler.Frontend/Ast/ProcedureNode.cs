@@ -5,8 +5,10 @@ namespace Compiler.Frontend.Ast
     public class ProcedureNode : AstNode
     {
         public AstNode Name { get; set; }
+        public AstNode ReturnType { get; set; }
         public AstNode Args { get; set; }
         public AstNode Body { get; set; }
+     
 
         public override AstNode Drain()
         {

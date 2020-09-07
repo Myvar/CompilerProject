@@ -185,21 +185,21 @@ namespace Compiler.Frontend
                     }
 
                     Logger.Debug(
-                        $"Found Un-parsed Node '{node.ReportToken.Raw}' at [L{node.ReportToken.Line}C{node.ReportToken.Col}] of {node.ReportToken.Type} expected {node.Expected} eidx [{node.ClosestExpected}] found {node.Found.Type}");
+                        $"Found Un-parsed Node '{node.ReportToken.Raw}' at [L{node.ReportToken.Line}C{node.ReportToken.Col}] of {node.ReportToken.Type} expected {node?.Expected} eidx [{node.ClosestExpected}] found {node?.Found?.Type}");
                 }
             }
 
             if (ast != null)
             {
                 Logger.Error(
-                    $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast.Expected} found {ast.Found.Type}");
+                    $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast?.Expected} found {ast?.Found?.Type}");
 
                 //    ast.ReportToken.Type = Error;
 
                 Report
                     .Error(ast.ReportToken)
                     .Message(
-                        $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast.Expected} found {ast.Found.Type}")
+                        $"Found Un-parsed Node '{ast.ReportToken.Raw}' at [L{ast.ReportToken.Line}C{ast.ReportToken.Col}] of {ast.ReportToken.Type} expected {ast?.Expected} found {ast?.Found?.Type}")
                     .Suggestion(
                         "You should have listened to your mom and studied law but no you want to be a programmer...")
                     .Suggestion("Look on stackover flow")
